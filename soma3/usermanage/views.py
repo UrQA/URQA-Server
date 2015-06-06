@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 
+from common import getUserProfileDict
 from urqa.models import AuthUser
 from urqa.models import Viewer
 from urqa.models import Projects
@@ -114,3 +115,10 @@ def logout_req(request):
     print 'logout'
     return HttpResponseRedirect('/urqa/')
 
+def getUserInfo(request) :
+    try:
+        user = AuthUser.objects.get(username = request.user)
+    except ObjectDoesNotExist:
+        return HttpResponse(json.dumps({}),  "application/json")
+
+    return HttpResponse(json.dumps(getUserProfileDict(user)), "application/json")
