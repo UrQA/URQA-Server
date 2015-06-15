@@ -858,10 +858,13 @@ def error_list(request,apikey):
         errorElements = errorElements.filter(iderror__in=iderror_list)
     #print osversion
     if osversion:
-        osvElements = Osstatistics.objects.select_related().filter(iderror__in=errorElements,osversion__in=osversion).values('iderror').distinct().order_by('iderror')
-        iderror_list = []
-        for e in osvElements:
-            iderror_list.append(int(e['iderror']))
+	iderror_list = []
+	for v in osversion:
+          if v == "M. ":
+            v= "M"
+          osvElements = Osstatistics.objects.select_related().filter(iderror__in=errorElements,osversion__startswith=v).values('iderror').distinct().order_by('iderror')
+          for e in osvElements:
+              iderror_list.append(int(e['iderror']))
         #if iderror_list:
         errorElements = errorElements.filter(iderror__in=iderror_list)
 
