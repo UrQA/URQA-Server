@@ -153,6 +153,8 @@ INSTALLED_APPS = (
     'projectmanage',
     'errors',
 	'config',
+    'api',
+    'rest_framework',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -188,5 +190,8 @@ LOGGING = {
     }
 }
 
+REST_FRAMEWORK = {
+
+}
 #웹브라우져가 종료되었을때 로그아웃 하고싶을때는 아래 문장을 이용한다.
 #SESSION_EXPIRE_AT_BROWSER_CLOSE = True
