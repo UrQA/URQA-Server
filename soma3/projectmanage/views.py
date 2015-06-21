@@ -623,7 +623,10 @@ def projects(request):
         'user' : request.user
     }
 
+    response_type = request.GET.get('response_type', None)
 
+    if response_type == 'json':
+        return HttpResponse(json.dumps(project_list))
 
     return render(request, 'project-select.html', ctx)
 
