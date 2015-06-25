@@ -42,6 +42,7 @@ urlpatterns = patterns('',
     url(r'^urqa/user/delete$', 'usermanage.views.delete_req'),              #User 회원탈퇴
     url(r'^urqa/user/login$', 'usermanage.views.login_req'),                #User Login
     url(r'^urqa/user/logout$', 'usermanage.views.logout_req'),              #User Logout
+    url(r'^urqa/user/info$', 'usermanage.views.getUserInfo'),
 
     #oauth module
     url(r'^urqa/user/login_by_google$', 'oauth.views.login_by_google'),     #UrQA Google auth Login
