@@ -110,6 +110,7 @@ urlpatterns = patterns('',
     url(r'^urqa/project/(?P<apikey>.{8})/proguardmap/upload$', 'projectmanage.views.proguardmap_upload'),#Proguard Map file upload
     url(r'^urqa/project/(?P<apikey>.{8})/proguardmap/delete$', 'projectmanage.views.proguardmap_delete'),#Proguard Map file delete
 
+    url(r'^urqa/v2/', include('api.urls'))
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
