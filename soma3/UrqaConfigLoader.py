@@ -7,6 +7,6 @@ class UrqaConfigLoader(object):
 		self.cfg = ConfigParser.RawConfigParser()
 		self.cfg.read(self.defaultPath)
 
-	def get_config(self, option):
-		return self.cfg.get('urqa',option)	
+	def get_config(self, option, prefix='urqa'):
+		return self.cfg.get(prefix, option)
 
