@@ -1,5 +1,5 @@
 # URQA
-* version: 1.5.2
+* version: 1.5.3
 * **Homepage**: http://www.urqa.io/
 * **Service Introduction** :  KOR - https://www.dropbox.com/s/uu356dy829bt384/UrQA%20Intro.pptx 
 * **Committer Group**: https://groups.google.com/forum/#!forum/urqagroup  
