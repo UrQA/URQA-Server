@@ -1,6 +1,7 @@
 # Django settings for soma3 project.
 # -*- coding: utf-8 -*-
 import os
+import sys
 from UrqaConfigLoader import UrqaConfigLoader
 
 urqaDbConfig = UrqaConfigLoader("/data/etc/urqa.io/dbconfig.cfg")
@@ -189,6 +190,9 @@ LOGGING = {
         },
     }
 }
+
+def is_unittest():
+    return 'test' in sys.argv
 
 REST_FRAMEWORK = {
 
