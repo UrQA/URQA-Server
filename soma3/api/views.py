@@ -1,5 +1,6 @@
 # Create your views here.
 # -*- coding: utf-8 -*-
+from django.db.models import Count
 
 from rest_framework import generics
 from rest_framework.response import Response
@@ -8,6 +9,27 @@ from api.serializers import ProjectsSerializer, ErrorsSerializer
 from api.utils import ProjectsPermission
 
 from urqa.models import Projects, Viewer, Errors
+
+
+class ProjectsList2(generics.ListCreateAPIView):
+    model = Projects
+    serializer_class = ProjectsSerializer
+    paginate_by_param = 'page_size'
+    paginate_by = 10
+    lookup_field = 'pid'
+
+    def get_queryset(self):
+
+        queryset = self.model.objects.extra(
+            tables=['errors'],
+            where=['errors.pid = projects.pid', 'errors.status in (0,1)'],
+            select={'iderror':'errors.iderror'},
+        ).values('pid', 'apikey', 'name', 'platform', 'stage', 'owner_uid').annotate(count=Count('errors'))
+
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(owner_uid=self.request.user.id)
+
+        return queryset
 
 
 class ProjectsList(generics.ListCreateAPIView):
@@ -33,7 +55,7 @@ class ProjectsList(generics.ListCreateAPIView):
           {viewer_id}
           GROUP BY projects.pid
         '''.format(
-            owner_id=' AND projects.owner_id = {0} '.format(
+            owner_id=' AND projects.owner_uid = {0} '.format(
                 self.request.user.id
             ) if not self.request.user.is_superuser else '',
             viewer_id='OR projects.pid in ({0}) '.format(

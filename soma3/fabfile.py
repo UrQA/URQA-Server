@@ -82,3 +82,8 @@ def install():
     with prefix(env.activate):
         with cd(env.directory):
             run('pip install -r requirements.txt')
+
+
+def runserver():
+    with cd(env.directory + '/soma3'):
+        local('python manage.py runserver 0.0.0.0:8000')
