@@ -1,11 +1,13 @@
 # Create your views here.
 # -*- coding: utf-8 -*-
+from django.db.models import Count
 
 from rest_framework import generics
+from rest_framework.views import APIView
 
-from api.serializers import ProjectsSerializer
+from api.serializers import ProjectsSerializer, ErrorsbyAppSerializer
 
-from urqa.models import Projects, Viewer
+from urqa.models import Projects, Viewer, Instances, ErrorsbyApp
 
 
 class ProjectsList(generics.ListCreateAPIView):
@@ -33,4 +35,34 @@ class ProjectsList(generics.ListCreateAPIView):
             viewer_id='OR projects.pid in ({0}) '.format(
                 ','.join(viewer_list)) if not self.request.user.is_superuser else ''
         ))
+        return queryset
+
+class ProjectsInfoList(APIView):
+
+    def get(self,request,apk_key):
+        pass
+
+class DailyErrorList(generics.ListCreateAPIView):
+    serializer_class = ErrorsbyAppSerializer
+    '''
+    original query
+    sql = "select count(*) as errorcount ,appversion, DATE_FORMAT(datetime,'%%y-%%m-%%d') as errorday "
+    sql = sql + "from instances A, errors B "
+    sql = sql + "where A.iderror = B.iderror "
+    sql = sql + "and B.pid = %(pidinput)s "
+    sql = sql + "and B.status in (0,1) "
+    sql = sql + "and A.datetime > %(pasttime)s"
+    sql = sql + "group by errorday"
+    '''
+    def get_queryset(self):
+        api_key = self.kwargs.get('api_key')
+
+        queryset = Instances.objects.extra(
+            tables=['errors'],
+            where=['errors.iderror = instances.iderror',
+                   'errors.status in (0,1)',
+                   'errors.pid = %s',
+                   ],
+            params=[Projects.objects.get(apikey=api_key).pid]
+        ).datetimes('datetime', 'day').aggregate(errorcount=Count('idinstance')).values('appversion','errorcount')
         return queryset
