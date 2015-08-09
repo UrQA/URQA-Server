@@ -38,9 +38,15 @@ class ProjectsList(generics.ListCreateAPIView):
         return queryset
 
 class ProjectsInfoList(APIView):
-
-    def get(self,request,apk_key):
-        pass
+	'''
+		대시보드 기초 구성 API
+		:return
+			weeklyBug
+			weeklyActiveUser
+			avgBugRate
+			bugFixRate
+	'''
+	pass
 
 class DailyErrorList(generics.ListCreateAPIView):
     serializer_class = ErrorsbyAppSerializer
@@ -57,12 +63,39 @@ class DailyErrorList(generics.ListCreateAPIView):
     def get_queryset(self):
         api_key = self.kwargs.get('api_key')
 
-        queryset = Instances.objects.extra(
-            tables=['errors'],
-            where=['errors.iderror = instances.iderror',
-                   'errors.status in (0,1)',
-                   'errors.pid = %s',
-                   ],
-            params=[Projects.objects.get(apikey=api_key).pid]
-        ).datetimes('datetime', 'day').aggregate(errorcount=Count('idinstance')).values('appversion','errorcount')
+        pid = Projects.objects.get(apikey= api_key).pid
+        queryset = ErrorsbyApp.objects.raw('''
+			select count(*) as errorcount, appversion, DATE_FORMAT(datetime,'%%y-%%m-%%d') as errorday 
+			from instances A
+			inner join errors B on B.iderror = A.iderror
+			where B.status in (0, 1)
+			and B.pid = '%s'
+			group by errorday
+			order by errorday desc
+			limit %d
+		''' % (pid, 7)
+        )
         return queryset
+
+
+class RankErrorList(generics.ListCreateAPIView):
+	'''
+		Rank 별 Error 갯수를 리턴하는 API
+	'''
+	pass
+
+
+class ClassErrorList(generics.ListCreateAPIView):
+	'''
+		Class 별 Error 갯수를 리턴하는 API
+	'''
+	pass
+
+
+class OSErrorList(generics.ListCreateAPIView):
+	'''
+		OS Version 별 Error 갯수를 리턴하는 API
+	'''
+	pass
+
+

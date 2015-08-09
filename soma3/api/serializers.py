@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from urqa.models import Projects
+from urqa.models import Projects, ErrorsbyApp
 
 
 class ProjectsSerializer(serializers.ModelSerializer):
@@ -9,7 +9,6 @@ class ProjectsSerializer(serializers.ModelSerializer):
 
 
 class ErrorsbyAppSerializer(serializers.Serializer):
-    errorcount = serializers.IntegerField()
-    appversion = serializers.CharField(max_length=45)
-    errorday = serializers.CharField(max_length=45)
+	class meta:
+		model = ErrorsbyApp
 
