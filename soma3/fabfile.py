@@ -24,7 +24,8 @@ def config():
             if not exists('/data/etc/urqa.io/'):
                 run('mkdir -p /data/etc/urqa.io')
             put(env.config_file, '/data/etc/urqa.io/config.cfg')
-            put(env.google_file, '/data/etc/urqa.io/google_client_secrets.json')
+            put(env.google_file,
+                '/data/etc/urqa.io/google_client_secrets.json')
             put(env.dbconfig, '/data/etc/urqa.io/dbconfig.cfg')
 
 
@@ -76,6 +77,11 @@ def pip():
         if (result.failed and
            confirm('pip are not exists, did you install pip?')):
             run('apt-get install python-pip')
+
+
+def nginx():
+    run('sudo apt-get update')
+    run('apt-get install nginx')
 
 
 def install():
