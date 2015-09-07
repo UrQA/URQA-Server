@@ -9,6 +9,8 @@ urqaDbConfig = UrqaConfigLoader("/data/etc/urqa.io/dbconfig.cfg")
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
