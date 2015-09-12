@@ -44,7 +44,6 @@ def deploy():
 def setting():
     pip()
     git()
-    config()
     code_dir = '~/.virtualenvs/urqa'
     with settings(warn_only=True):
         if run('test -d %s' % code_dir).failed:
