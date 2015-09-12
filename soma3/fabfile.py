@@ -87,3 +87,7 @@ def install():
     with prefix(env.activate):
         with cd(env.directory):
             run('pip install -r requirements.txt')
+
+
+def uwsgi():
+    local('uwsgi --ini soma3_uwsgi.ini --static-map /static=static')
