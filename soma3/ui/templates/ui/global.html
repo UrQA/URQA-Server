@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>URQA</title>
+	</head>
+
+	<body>
+		Default Page
+		{% if user.ok %}
+		{% include "ui/in.html" %}
+		{% else %}
+		{% include "ui/out.html" %}
+		{% endif %}
+	</body>
+</html>
