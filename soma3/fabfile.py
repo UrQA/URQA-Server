@@ -4,6 +4,7 @@ from fabric.contrib.console import confirm
 from fabric.contrib.files import exists
 from fabric.operations import prompt, put
 
+env.run = local
 env.directory = '/home/URQA-Server'
 env.activate = 'source ~/.virtualenvs/urqa/bin/activate'
 
@@ -91,3 +92,7 @@ def install():
 
 def uwsgi():
     local('uwsgi --ini soma3_uwsgi.ini --static-map /static=static')
+
+
+def runserver():
+    env.run('python manage.py runserver 0.0.0.0:9000')
