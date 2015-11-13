@@ -16,9 +16,11 @@ class Activitystatistics(models.Model):
     iderror = models.ForeignKey('Errors', db_column='iderror')
     activityname = models.CharField(max_length=300)
     count = models.IntegerField()
+
     class Meta:
         managed = False
         db_table = 'activitystatistics'
+
 
 class Appruncount(models.Model):
     idappruncount = models.AutoField(primary_key=True)
@@ -26,9 +28,11 @@ class Appruncount(models.Model):
     date = models.DateField(blank=True, null=True)
     appversion = models.CharField(max_length=45, blank=True)
     runcount = models.BigIntegerField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'appruncount'
+
 
 class Appruncount2(models.Model):
     idappruncount = models.AutoField(primary_key=True)
@@ -36,44 +40,24 @@ class Appruncount2(models.Model):
     datetime = models.DateTimeField(blank=True, null=True)
     appversion = models.CharField(max_length=45, blank=True)
     appruncount = models.BigIntegerField(blank=True, null=True)
+
     class Meta:
         managed = False
         unique_together = ('pid', 'datetime', 'appversion')
         db_table = 'appruncount2'
 
+
 class Appstatistics(models.Model):
     idappstatistics = models.AutoField(primary_key=True)
-    pid = models.ForeignKey('Projects', db_column='pid')
     iderror = models.ForeignKey('Errors', db_column='iderror')
     appversion = models.CharField(max_length=45)
     count = models.IntegerField()
+    pid = models.IntegerField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'appstatistics'
 
-class AuthGroup(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=80)
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-class AuthGroupPermissions(models.Model):
-    id = models.AutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup)
-    permission = models.ForeignKey('AuthPermission')
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-
-class AuthPermission(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    content_type = models.ForeignKey('DjangoContentType')
-    codename = models.CharField(max_length=100)
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
 
 class AuthUser(models.Model):
     id = models.AutoField(primary_key=True)
@@ -88,25 +72,11 @@ class AuthUser(models.Model):
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
     image_path = models.CharField(max_length=260, blank=True)
+
     class Meta:
         managed = False
         db_table = 'auth_user'
 
-class AuthUserGroups(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser)
-    group = models.ForeignKey(AuthGroup)
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-
-class AuthUserUserPermissions(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser)
-    permission = models.ForeignKey(AuthPermission)
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
 
 class Comments(models.Model):
     idcomment = models.AutoField(primary_key=True)
@@ -114,52 +84,33 @@ class Comments(models.Model):
     iderror = models.ForeignKey('Errors', db_column='iderror')
     datetime = models.DateTimeField()
     comment = models.CharField(max_length=200)
+
     class Meta:
         managed = False
         db_table = 'comments'
+
 
 class Countrystatistics(models.Model):
     idcountrystatistics = models.AutoField(primary_key=True)
     iderror = models.ForeignKey('Errors', db_column='iderror')
     countryname = models.CharField(max_length=45)
     count = models.IntegerField()
+
     class Meta:
         managed = False
         db_table = 'countrystatistics'
 
+
 class Devicestatistics(models.Model):
     iddevicestatistics = models.AutoField(primary_key=True)
     iderror = models.ForeignKey('Errors', db_column='iderror')
-    devicename = models.CharField(max_length=45)
+    devicename = models.CharField(max_length=75, blank=True)
     count = models.IntegerField()
+
     class Meta:
         managed = False
         db_table = 'devicestatistics'
 
-class DjangoContentType(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-class DjangoSite(models.Model):
-    id = models.AutoField(primary_key=True)
-    domain = models.CharField(max_length=100)
-    name = models.CharField(max_length=50)
-    class Meta:
-        managed = False
-        db_table = 'django_site'
 
 class Errors(models.Model):
     iderror = models.AutoField(primary_key=True)
@@ -171,7 +122,7 @@ class Errors(models.Model):
     createdate = models.DateTimeField()
     lastdate = models.DateTimeField()
     callstack = models.TextField()
-    errorname = models.CharField(max_length=500)
+    errorname = models.CharField(max_length=10000, blank=True)
     errorclassname = models.CharField(max_length=300)
     linenum = models.CharField(max_length=45)
     errorweight = models.IntegerField(blank=True, null=True)
@@ -183,9 +134,11 @@ class Errors(models.Model):
     totalmemusage = models.IntegerField()
     gain1 = models.FloatField(blank=True, null=True)
     gain2 = models.FloatField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'errors'
+
 
 class Eventpaths(models.Model):
     ideventpaths = models.AutoField(primary_key=True)
@@ -198,6 +151,7 @@ class Eventpaths(models.Model):
     linenum = models.IntegerField(blank=True, null=True)
     depth = models.IntegerField(blank=True, null=True)
     label = models.CharField(max_length=300, blank=True)
+
     class Meta:
         managed = False
         db_table = 'eventpaths'
@@ -208,7 +162,7 @@ class Instances(models.Model):
     ins_count = models.IntegerField(blank=True, null=True)
     sdkversion = models.CharField(max_length=45, blank=True)
     appversion = models.CharField(max_length=45, blank=True)
-    osversion = models.CharField(max_length=45, blank=True)
+    osversion = models.CharField(max_length=75, blank=True)
     kernelversion = models.CharField(max_length=45, blank=True)
     appmemmax = models.CharField(max_length=45, blank=True)
     appmemfree = models.CharField(max_length=45, blank=True)
@@ -219,7 +173,7 @@ class Instances(models.Model):
     mobileon = models.IntegerField(blank=True, null=True)
     gpson = models.IntegerField(blank=True, null=True)
     wifion = models.IntegerField(blank=True, null=True)
-    device = models.CharField(max_length=45, blank=True)
+    device = models.CharField(max_length=75, blank=True)
     rooted = models.IntegerField(blank=True, null=True)
     scrheight = models.IntegerField(blank=True, null=True)
     scrwidth = models.IntegerField(blank=True, null=True)
@@ -233,7 +187,8 @@ class Instances(models.Model):
     callstack = models.TextField(blank=True)
     dump_path = models.CharField(max_length=260, blank=True)
     lastactivity = models.CharField(max_length=300, blank=True)
-    pid = models.ForeignKey('Projects', db_column='pid')
+    pid = models.IntegerField(blank=True, null=True)
+    
     class Meta:
         managed = False
         unique_together= (('pid', 'datetime'), ('iderror', 'appversion'),
@@ -247,9 +202,10 @@ class Instances(models.Model):
 class Osstatistics(models.Model):
     idosstatistics = models.AutoField(primary_key=True)
     iderror = models.ForeignKey(Errors, db_column='iderror')
-    osversion = models.CharField(max_length=10)
-    pid = models.ForeignKey('Projects', db_column="pid")
+    osversion = models.CharField(max_length=75, blank=True)
     count = models.IntegerField()
+    pid = models.IntegerField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'osstatistics'
@@ -260,6 +216,7 @@ class Proguardmap(models.Model):
     appversion = models.CharField(max_length=45, blank=True)
     filename = models.CharField(max_length=45, blank=True)
     uploadtime = models.DateTimeField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'proguardmap'
@@ -273,6 +230,7 @@ class Projects(models.Model):
     owner_uid = models.ForeignKey(AuthUser, db_column='owner_uid')
     category = models.IntegerField(blank=True, null=True)
     timezone = models.CharField(max_length=45, blank=True)
+
     class Meta:
         managed = False
         db_table = 'projects'
@@ -281,6 +239,7 @@ class Session(models.Model):
     idsession = models.BigIntegerField(primary_key=True)
     pid = models.ForeignKey(Projects, db_column='pid')
     appversion = models.CharField(max_length=45)
+
     class Meta:
         managed = False
         db_table = 'session'
@@ -292,6 +251,7 @@ class Sessionevent(models.Model):
     classname = models.CharField(max_length=300, blank=True)
     methodname = models.CharField(max_length=300, blank=True)
     linenum = models.IntegerField(blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'sessionevent'
@@ -303,6 +263,7 @@ class Sofiles(models.Model):
     versionkey = models.CharField(max_length=45, blank=True)
     filename = models.CharField(max_length=45, blank=True)
     uploaded = models.CharField(max_length=45, blank=True)
+
     class Meta:
         managed = False
         db_table = 'sofiles'
@@ -312,25 +273,17 @@ class Tags(models.Model):
     iderror = models.ForeignKey(Errors, db_column='iderror')
     tag = models.CharField(max_length=45)
     pid = models.ForeignKey(Projects, db_column='pid', blank=True, null=True)
+
     class Meta:
         managed = False
         db_table = 'tags'
 
-class Users(models.Model):
-    uid = models.AutoField(primary_key=True)
-    email = models.CharField(unique=True, max_length=45)
-    passwd = models.CharField(max_length=20)
-    nickname = models.CharField(max_length=45)
-    company = models.CharField(max_length=45)
-    image_path = models.CharField(max_length=45, blank=True)
-    class Meta:
-        managed = False
-        db_table = 'users'
 
 class Viewer(models.Model):
     idviewer = models.AutoField(primary_key=True)
     uid = models.ForeignKey(AuthUser, db_column='uid')
     pid = models.ForeignKey(Projects, db_column='pid')
+
     class Meta:
         managed = False
         db_table = 'viewer'
@@ -408,8 +361,9 @@ class LoginApprunCount(models.Model):
 
 class InstanceLog(models.Model):
     idinstance = models.IntegerField(primary_key=True)
-    log = models.TextField(blank=True, null=True)
+    log = models.TextField(blank=True)
     savetime = models.DateTimeField(blank=True, null=True)
+    
     class Meta:
         managed = False
         db_table = 'instancelog'
