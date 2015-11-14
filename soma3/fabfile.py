@@ -96,3 +96,7 @@ def uwsgi():
 
 def runserver():
     env.run('python manage.py runserver 0.0.0.0:9000')
+
+
+def reload():
+    run('sudo supervisorctl restart urqa')
