@@ -2,14 +2,18 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
-#   * Remove `managed = False` lines for those models you wish to give write DB access
-# Feel free to rename the models, but don't rename db_table values or field names.
+#   * Remove `managed = False` lines for
+#     those models you wish to give write DB access
+#   * Feel free to rename the models,
+#     but don't rename db_table values or field names.
 #
-# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# Also note:
+#   You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
 # into your database.
 from __future__ import unicode_literals
 
 from django.db import models
+
 
 class Activitystatistics(models.Model):
     idactivitystatistics = models.AutoField(primary_key=True)
@@ -156,6 +160,7 @@ class Eventpaths(models.Model):
         managed = False
         db_table = 'eventpaths'
 
+
 class Instances(models.Model):
     idinstance = models.AutoField(primary_key=True)
     iderror = models.ForeignKey(Errors, db_column='iderror')
@@ -188,16 +193,23 @@ class Instances(models.Model):
     dump_path = models.CharField(max_length=260, blank=True)
     lastactivity = models.CharField(max_length=300, blank=True)
     pid = models.IntegerField(blank=True, null=True)
-    
+
     class Meta:
         managed = False
-        unique_together= (('pid', 'datetime'), ('iderror', 'appversion'),
-                        ('iderror', 'osversion'), ('iderror', 'device'),
-                        ('iderror', 'country'), ('iderror', 'wifion'),
-                        ('iderror', 'gpson'),('iderror', 'mobileon'),
-                        ('pid', 'datetime', 'country'))
+        unique_together = (
+            ('pid', 'datetime'),
+            ('iderror', 'appversion'),
+            ('iderror', 'osversion'),
+            ('iderror', 'device'),
+            ('iderror', 'country'),
+            ('iderror', 'wifion'),
+            ('iderror', 'gpson'),
+            ('iderror', 'mobileon'),
+            ('pid', 'datetime', 'country')
+        )
 
         db_table = 'instances'
+
 
 class Osstatistics(models.Model):
     idosstatistics = models.AutoField(primary_key=True)
@@ -210,6 +222,7 @@ class Osstatistics(models.Model):
         managed = False
         db_table = 'osstatistics'
 
+
 class Proguardmap(models.Model):
     idproguardmap = models.AutoField(primary_key=True)
     pid = models.ForeignKey('Projects', db_column='pid')
@@ -220,6 +233,7 @@ class Proguardmap(models.Model):
     class Meta:
         managed = False
         db_table = 'proguardmap'
+
 
 class Projects(models.Model):
     pid = models.AutoField(primary_key=True)
@@ -235,6 +249,7 @@ class Projects(models.Model):
         managed = False
         db_table = 'projects'
 
+
 class Session(models.Model):
     idsession = models.BigIntegerField(primary_key=True)
     pid = models.ForeignKey(Projects, db_column='pid')
@@ -243,6 +258,7 @@ class Session(models.Model):
     class Meta:
         managed = False
         db_table = 'session'
+
 
 class Sessionevent(models.Model):
     idsessionevent = models.AutoField(primary_key=True)
@@ -256,6 +272,7 @@ class Sessionevent(models.Model):
         managed = False
         db_table = 'sessionevent'
 
+
 class Sofiles(models.Model):
     idsofiles = models.AutoField(primary_key=True)
     pid = models.ForeignKey(Projects, db_column='pid')
@@ -267,6 +284,7 @@ class Sofiles(models.Model):
     class Meta:
         managed = False
         db_table = 'sofiles'
+
 
 class Tags(models.Model):
     idtag = models.AutoField(primary_key=True)
@@ -288,6 +306,8 @@ class Viewer(models.Model):
         managed = False
         db_table = 'viewer'
 
+
+# TODO: will be removed
 class ProjectSummary(models.Model):
     instanceCount = models.IntegerField()
     pid = models.IntegerField(primary_key=True)
@@ -296,76 +316,101 @@ class ProjectSummary(models.Model):
     owner_uid = models.CharField(max_length=10)
     platform = models.IntegerField()
     stage = models.IntegerField()
-    #runcount = models.IntegerField()
-    class Meta:
-         managed = False
-         db_table = 'projectsummary'
 
+    class Meta:
+        managed = False
+        db_table = 'projectsummary'
+
+
+# TODO: will be removed
 class ErrorsbyApp(models.Model):
     errorcount = models.IntegerField(primary_key=True)
     appversion = models.CharField(max_length=45, blank=True)
     errorday = models.CharField(max_length=45, blank=True)
 
+
+# TODO: will be removed
 class SessionbyApp(models.Model):
     idsessionbyapp = models.IntegerField(primary_key=True)
     runcount = models.IntegerField(blank=True, null=True)
     appversion = models.CharField(max_length=45, blank=True)
     sessionday = models.CharField(max_length=45, blank=True)
 
+
+# TODO: will be removed
 class ErrorbyRank(models.Model):
     iderrorbyrank = models.IntegerField(primary_key=True)
     errorcount = models.IntegerField(blank=True, null=True)
     errorrank = models.IntegerField(blank=True, null=True)
 
-class CountrysbyApp(models.Model):
-   count = models.IntegerField(primary_key=True)
-   country = models.CharField(max_length=45, blank=True)
 
+# TODO: will be removed
+class CountrysbyApp(models.Model):
+    count = models.IntegerField(primary_key=True)
+    country = models.CharField(max_length=45, blank=True)
+
+
+# TODO: will be removed
 class InstanceCountModel(models.Model):
     iderror = models.IntegerField(primary_key=True)
     count = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class ErrorStatistics(models.Model):
     iderrorstatistics = models.IntegerField(primary_key=True)
     keyname = models.CharField(max_length=45, blank=True)
     count = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class Erbd(models.Model):
     device = models.CharField(max_length=45, primary_key=True)
     sum = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class Erba(models.Model):
     activity = models.CharField(max_length=255, primary_key=True)
     sum = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class Erbv(models.Model):
     appversion = models.CharField(max_length=255, primary_key=True)
     osversion = models.CharField(max_length=255)
     sum = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class ErbvApps(models.Model):
     appversion = models.CharField(max_length=255, primary_key=True)
     sum = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class TotalSession(models.Model):
     appversion = models.CharField(max_length=255, primary_key=True)
     total = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class LoginErrorCountModel(models.Model):
     pid = models.IntegerField(primary_key=True)
     count = models.IntegerField(blank=True, null=True)
 
+
+# TODO: will be removed
 class LoginApprunCount(models.Model):
     pid = models.IntegerField(primary_key=True)
     count = models.IntegerField(blank=True, null=True)
+
 
 class InstanceLog(models.Model):
     idinstance = models.IntegerField(primary_key=True)
     log = models.TextField(blank=True)
     savetime = models.DateTimeField(blank=True, null=True)
-    
+
     class Meta:
         managed = False
         db_table = 'instancelog'
-
-
