@@ -1,0 +1,9 @@
+Anoymous User Page
+<form action="/ui/signin" method="POST">
+    {% csrf_token %}
+    <input type="text" name="username">
+    <input type="password" name="password">
+    <input type="hidden" name="redirect" value="/ui">
+    <input type="hidden" name="login" value="/ui">
+    <input type="submit"></input>
+</form>

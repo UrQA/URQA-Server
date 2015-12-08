@@ -157,6 +157,7 @@ INSTALLED_APPS = (
 	'config',
     'api',
     'rest_framework',
+    'ui',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
