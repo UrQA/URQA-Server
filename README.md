@@ -17,7 +17,7 @@
 * product + develop marging -> test -> master 
  
 ## Licenses
- * Server (include overall backend features)  - GPL 3.0
+ * Server (include overall backend features)  - MIT
  * Client (ios, android,  codova )  - MIT 
  
 ## UrQA User Guide
